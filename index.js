@@ -34,8 +34,8 @@ if (dunyakupasiFinali2014[0]["Home Team Goals"] > dunyakupasiFinali2014[0]["Away
 	💡 İPUCU - verilen data içindeki nesnelerin(objects) "Stage" anahtarına bakmalısınız
 */
 
-function Finaller(gelenVeri) {
-	var tümFinaller = gelenVeri.filter(mac => mac["Stage"] =="Final");
+function Finaller(array) {
+	var tümFinaller = array.filter(mac => mac["Stage"] =="Final");
 	return tümFinaller;
 	
     /* kodlar buraya */
@@ -50,8 +50,8 @@ console.log(Finaller(fifaData));
 	3. Finaller data setindeki tüm yılları içeren "years" adındaki diziyi(array) döndürecek
 	*/
 
-function Yillar(gelenVeri,callback) {
-let  tumFinaller = callback(gelenVeri);
+function Yillar(array,callback) {
+let  tumFinaller = callback(array);
 let years = tumFinaller.map(mac =>  mac.Year);
 	return years;
     /* kodlar buraya */
@@ -69,8 +69,23 @@ let years = tumFinaller.map(mac =>  mac.Year);
 	💡 İPUCU: Beraberlikler(ties) için şimdilik endişelenmeyin (Detaylı bilgi için README dosyasına bakabilirsiniz.)
 	4. Tüm kazanan ülkelerin isimlerini içeren `kazananlar` adında bir dizi(array) döndürecek(return)  */ 
 
-function Kazananlar(/* kodlar buraya */) {
-	
+function Kazananlar(array,callback) {
+	let win = callback(array).map( (mac) => 
+	{
+		if (mac["Home Team Goals"] > mac["Away Team Goals"]) {
+
+			return mac["Home Team Name"]
+
+		} else if (mac["Home Team Goals"] < mac["Away Team Goals"]) {
+
+			return mac["Away Team Name"]
+
+		} else {
+			return "Beraberlik!"
+		}
+	})
+
+	return win;
     /* kodlar buraya */
 	
 }
@@ -88,12 +103,16 @@ function Kazananlar(/* kodlar buraya */) {
 	💡 İPUCU: her cümlenin adım 4'te belirtilen cümleyle birebir aynı olması gerekmektedir.
 */
 
-function YillaraGoreKazananlar(/* kodlar buraya */) {
-	
-/* kodlar buraya */
+function YillaraGoreKazananlar(array,callback,callblackYillar,callblackKazananlar) {
 
+	let worldcp =[];
+
+	for (let i=0; i< (callblackYillar(array,callback).lenght); i++ ){
+		worldcp.push(`${cbYillar(arr, cbFinal)[i]} yılında, ${cbKazanan(arr, cbFinal)[i]} dünya kupasını kazandı!`)
+	}
+	 return worldcp;
 }
-
+console.log(YillaraGoreKazananlar(fifaData,Finaller,Yillar,Kazananlar));
 
 /*  Görev 6: 
 	Bir higher order fonksiyonu olan `OrtalamaGolSayisi` isimli fonksiyona aşağıdakileri uygulayın: 
